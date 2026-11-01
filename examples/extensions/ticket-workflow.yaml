@@ -1,0 +1,14 @@
+# A host-defined automation language, not executable YAML.
+id: ticket-workflow
+name: Ticket triage
+description: Turn a support ticket into a task and notify the local team inbox.
+event: ticket.created
+steps:
+  - call: records.create
+    input:
+      title: { $event: title }
+      priority: { $event: priority }
+  - call: notifications.send
+    input:
+      channel: { $config: channel }
+      message: { $event: title }

@@ -1,0 +1,23 @@
+{
+  "name": "@islands/tooling",
+  "version": "0.1.0",
+  "description": "Bundle Islands extensions and generate host contract types",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "bin": { "islands": "./dist/cli.js" },
+  "files": ["src", "dist", "README.md"],
+  "dependencies": {
+    "@islands/protocol": "workspace:*",
+    "@islands/sdk": "workspace:*",
+    "esbuild": "0.28.2",
+    "json-schema-to-typescript": "16.0.0"
+  },
+  "engines": { "node": ">=22" }
+}

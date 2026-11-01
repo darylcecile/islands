@@ -1,0 +1,23 @@
+{
+  "id": "deployment-workflow",
+  "name": "Preview deployment",
+  "description": "Register a preview deployment and notify the local release inbox.",
+  "event": "deployment.requested",
+  "steps": [
+    {
+      "call": "deployments.create",
+      "input": {
+        "service": { "$event": "service" },
+        "revision": { "$event": "revision" },
+        "environment": { "$config": "environment" }
+      }
+    },
+    {
+      "call": "notifications.send",
+      "input": {
+        "channel": { "$config": "channel" },
+        "message": { "$event": "revision" }
+      }
+    }
+  ]
+}

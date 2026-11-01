@@ -1,0 +1,20 @@
+{
+  "name": "@islands/runtime",
+  "version": "0.1.0",
+  "description": "Browser-compatible host for the Islands WebAssembly extension runtime",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./islands.wasm": "./dist/islands.wasm"
+  },
+  "files": ["src", "dist"],
+  "dependencies": {
+    "@islands/protocol": "workspace:*",
+    "ajv": "8.20.0"
+  }
+}

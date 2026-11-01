@@ -1,0 +1,19 @@
+{
+  "name": "@islands/sdk",
+  "version": "0.1.0",
+  "description": "Typed author API for portable Islands extensions",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "bun": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["src", "dist", "README.md"],
+  "dependencies": {
+    "@islands/protocol": "workspace:*"
+  }
+}

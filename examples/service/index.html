@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Islands — Extension workbench</title>
+    <link rel="stylesheet" href="/style.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to workbench</a>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Islands home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>Islands</a>
+      <span class="topbar-label">Extension workbench</span>
+      <span class="runtime-label">QuickJS / WebAssembly</span>
+    </header>
+    <main id="main">
+      <div class="intro">
+        <div><h1>Small extensions. Real capabilities.</h1><p>Run code, trigger a workflow, and inspect what crosses the host boundary.</p></div>
+        <button id="reset-host" class="button secondary" type="button" disabled>Reset server state</button>
+      </div>
+      <p id="server-status" class="connection" role="status">Loading the server runtime…</p>
+
+      <div class="workbench">
+        <aside class="library" aria-labelledby="installed-heading">
+          <div class="section-title"><h2 id="installed-heading">Installed extensions</h2><span id="extension-count" class="count">0</span></div>
+          <nav id="extension-list" aria-label="Installed extensions"><p class="empty">Loading extensions…</p></nav>
+          <p class="library-note">Each extension has its own WASM instance. The host grants the capabilities it can call.</p>
+        </aside>
+
+        <section class="runner" aria-labelledby="extension-name">
+          <div class="runner-heading"><span id="extension-context" class="muted">Choose an extension</span><span id="extension-language" class="tag" hidden></span></div>
+          <h2 id="extension-name">Extension runner</h2>
+          <p id="extension-description" class="description">The server is loading the local artifacts.</p>
+          <div id="grant-list" class="grants" role="group" aria-label="Granted capabilities"></div>
+
+          <form id="document-form" class="document-form" hidden>
+            <label for="document-text">Host document</label>
+            <textarea id="document-text" name="document" rows="3" maxlength="20000" spellcheck="true" autocomplete="off"></textarea>
+            <div class="form-footer"><span class="hint">The extension reads this through <code>editor.read</code>.</span><button class="button secondary small" type="submit">Update document</button></div>
+          </form>
+
+          <form id="run-form">
+            <label for="action-select">Action</label>
+            <select id="action-select" name="action" disabled></select>
+            <div id="payload-field" class="field" hidden><label for="payload">Input <span class="hint">JSON</span></label><textarea id="payload" name="payload" class="code-input" spellcheck="false" autocomplete="off" rows="5"></textarea></div>
+            <div class="run-footer"><code id="action-method"></code><button id="run-action" class="button primary" type="submit" disabled>Run extension</button></div>
+          </form>
+          <div class="result-heading"><h3>Result</h3><span id="result-status" class="muted">Ready when you are</span></div>
+          <pre id="result" class="result" tabindex="0" aria-live="polite">Run an action to see its return value.</pre>
+        </section>
+      </div>
+
+      <section class="host-effects" aria-labelledby="host-heading">
+        <div class="section-title"><h2 id="host-heading">Host state</h2><span class="hint">Local, in memory</span></div>
+        <p class="section-description">These are actual records created by host capabilities. Deployment entries are registered locally; no cloud infrastructure is provisioned.</p>
+        <div class="state-grid">
+          <details><summary>Workspace tasks <span id="records-count" class="count">0</span></summary><pre id="records-state" tabindex="0">No tasks yet. Trigger the ticket workflow.</pre></details>
+          <details><summary>Team inbox <span id="notifications-count" class="count">0</span></summary><pre id="notifications-state" tabindex="0">No notifications yet.</pre></details>
+          <details><summary>Deployment registry <span id="deployments-count" class="count">0</span></summary><pre id="deployments-state" tabindex="0">No deployments yet. Run the JSON workflow.</pre></details>
+        </div>
+      </section>
+
+      <section class="activity-section" aria-labelledby="activity-heading">
+        <div class="section-title"><div class="heading-group"><h2 id="activity-heading">Server activity</h2><span id="activity-count" class="count">0</span></div><button id="refresh" class="text-button" type="button" disabled>Refresh</button></div>
+        <p class="section-description">Capability calls and completed operations, newest first. The last 100 entries are retained.</p>
+        <ol id="activity-list" class="activity-list" tabindex="0"><li class="empty">Run an extension to start the activity log.</li></ol>
+      </section>
+
+      <section class="browser-section" aria-labelledby="browser-heading">
+        <div class="browser-copy">
+          <span class="tag browser-tag">Runs in this browser</span>
+          <h2 id="browser-heading">Same artifact. A different host.</h2>
+          <p>The greeter below runs directly in your browser's WebAssembly runtime. Its counter and <code>log.write</code> capability live here.</p>
+          <p class="hint">Only the bundle, <a href="/islands.wasm" download>WASM binary</a>, and <a href="/portable-greeter.json" download>extension artifact</a> are downloaded. Greetings never call the server API.</p>
+        </div>
+        <div class="browser-controls">
+          <p id="browser-status" class="connection" role="status">Loading browser WebAssembly…</p>
+          <form id="browser-form"><label for="browser-name">Who should we greet?</label><div class="input-row"><input id="browser-name" name="name" value="Browser" required maxlength="200" autocomplete="off"><button id="browser-run" class="button primary" disabled>Greet locally</button></div></form>
+          <pre id="browser-result" class="result" tabindex="0" aria-live="polite">Waiting for the browser runtime.</pre>
+          <div class="result-heading"><h3>Browser capability log</h3><button id="browser-reset" class="text-button" type="button" disabled>Reset instance</button></div>
+          <ol id="browser-log" class="browser-log" tabindex="0"><li class="empty">Your first greeting will appear here.</li></ol>
+        </div>
+      </section>
+      <footer>Islands examples <span>TypeScript, JavaScript, YAML and JSON compile to one portable artifact format.</span></footer>
+    </main>
+  </body>
+</html>
